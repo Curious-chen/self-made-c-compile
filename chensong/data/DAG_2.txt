@@ -1,0 +1,12 @@
+void main(){
+int a,b,c,d,A,B,e,f,S,R;
+a=2;
+b = 10/a;
+c = S - R;
+d = S + R;
+A = b * d;
+B = A;
+e = S + R;
+f = c * e;
+B = f;
+}

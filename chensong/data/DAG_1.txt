@@ -1,0 +1,13 @@
+void main(){
+    int a,b,c,d,e,f,g,r,A,B,R;
+	a = 3.14;
+	b = 2 *a;
+	c = R + r;
+	A = b * c;
+	B = A;
+	d = 2*a;
+	e = R + r;
+	f = d * e;
+	g = R - r;
+	B = f * g;
+}

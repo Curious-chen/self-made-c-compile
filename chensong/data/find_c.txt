@@ -1,0 +1,370 @@
+basic_expression
+	: IDENTIFIER
+	| CONSTANT
+	| STRING_LITERAL
+	| '(' expression ')'
+	| INTERGER
+	| FLOATOR
+	| CHARACTER
+	;
+
+postfix_expression
+	: basic_expression
+	| postfix_expression '[' expression ']'
+	| postfix_expression '(' ')'
+	| postfix_expression '(' parameter_expression_list ')'
+	| postfix_expression '.' IDENTIFIER
+	| postfix_expression ARROW IDENTIFIER
+	| postfix_expression '++'
+	| postfix_expression '--'
+	;
+	
+parameter_expression_list
+	: parameter_expression_list ',' assignment_expression
+	| assignment_expression
+	;
+	
+unary_expression
+	: postfix_expression
+	| '++' unary_expression
+	| '--' unary_expression
+	| unary_operator unary_expression
+	| SIZEOF unary_expression
+	;
+	
+unary_operator
+	: '&'
+	| '*'
+	| '+'
+	| '-'
+	| '~'
+	| '!'
+	;
+	
+multiplicative_expression
+	: unary_expression
+	| multiplicative_expression '*' unary_expression
+	| multiplicative_expression '/' unary_expression
+	| multiplicative_expression '%' unary_expression
+	;
+	
+additive_expression
+	: multiplicative_expression
+	| additive_expression '+' multiplicative_expression
+	| additive_expression '-' multiplicative_expression
+	;
+	
+shift_expression
+	: additive_expression
+	| shift_expression '<<' additive_expression
+	| shift_expression '>>' additive_expression
+	;
+	
+relational_expression
+	: shift_expression
+	| relational_expression '<' shift_expression
+	| relational_expression '>' shift_expression
+	| relational_expression '<=' shift_expression
+	| relational_expression '>=' shift_expression
+	;
+	
+equality_expression
+	: relational_expression
+	| equality_expression '==' relational_expression
+	| equality_expression '!=' relational_expression
+	;
+	
+and_expression
+	: equality_expression
+	| and_expression '&' equality_expression	
+	;
+	
+exclusive_or_expression
+	: and_expression
+	| exclusive_or_expression '^' and_expression
+	;
+	
+inclusive_or_expression
+	: exclusive_or_expression
+	| inclusive_or_expression '|' exclusive_or_expression
+	;
+	
+logical_and_expression
+	: inclusive_or_expression
+	| logical_and_expression '&&' inclusive_or_expression
+	;
+	
+conditional_expression
+	: logical_or_expression
+	| logical_or_expression '?' expression ':' conditional_expression
+	;
+	
+conditional_expression
+	: logical_or_expression
+	| logical_or_expression '?' expression ':' conditional_expression
+	;
+
+logical_or_expression
+    : logical_or_expression '||' logical_and_expression
+    | logical_and_expression
+    ;
+
+assignment_expression
+	: conditional_expression
+	| conditional_expression assignment_operator assignment_expression
+	;
+	
+assignment_operator
+	: '='
+	| '*='
+	| '/='
+	| '%='
+	| '+='
+	| '-='
+	| '<<='
+	| '>>='
+	| '&='
+	| '^='
+	| '|='
+	;
+	
+expression
+	: assignment_expression
+	| expression ',' assignment_expression
+	;
+	
+constant_expression
+	: conditional_expression
+	;
+	
+declaration
+	: declaration_specifiers ';'
+	| declaration_specifiers init_declarator_list ';'
+	;
+	
+declaration_specifiers
+	: storage_class_specifier_
+	| type_specifier_
+	| type_qualifier_
+	;
+	
+storage_class_specifier_
+	: storage_class_specifier
+	| storage_class_specifier declaration_specifiers
+	;
+	
+type_specifier_
+	: type_specifier
+	| type_specifier declaration_specifiers
+	;
+	
+type_qualifier_
+	: type_qualifier
+	| type_qualifier declaration_specifiers
+	;
+	
+init_declarator_list
+	: init_declarator
+	| init_declarator_list ',' init_declarator
+	;
+	
+init_declarator
+	: declarator
+	| declarator '=' initializer
+	;
+	
+storage_class_specifier
+	: TYPEDF
+	| EXTERN
+	| STATIC
+	| AUTO
+	| REGISTER
+	;
+	
+type_specifier
+	: VOID
+	| CHAR
+	| SHORT
+	| INT
+	| LONG
+	| FLOAT
+	| DOUBLE
+	| SIGNED
+	| UNSIGNED
+	| TYPE_NAME
+	;
+	
+type_qualifier
+    : CONST
+	| VOLATILE
+	| MAIN
+	;
+	
+initializer
+	: assignment_expression
+	| '{' initializer_list '}'
+	;
+	
+initializer_list
+	: initializer
+	| initializer_list ',' initializer
+	;
+	
+declarator
+	: pointer direct_declarator
+	| direct_declarator
+	;
+	
+direct_declarator
+    :  IDENTIFIER direct_declarator'
+	|  '(' declarator ')' direct_declarator'
+	;
+	
+direct_declarator'
+    : direct_declarator'_1
+	| direct_declarator'_2
+	| EMPTY
+	;
+	
+direct_declarator'_1
+	: '[' constant_expression ']' direct_declarator'
+	| '[' ']' direct_declarator'
+	;
+
+direct_declarator'_2
+	: '(' parameter_type_list ')' direct_declarator'
+	| '(' identifier_list ')' direct_declarator'
+	| '(' ')' direct_declarator'
+	;
+
+pointer
+	: '*'
+	| '*' pointer
+	| '*' type_qualifier_list pointer
+	;
+
+type_qualifier_list
+	: type_qualifier
+	| type_qualifier_list type_qualifier
+	;
+
+parameter_type_list
+	: parameter_list
+	;
+
+parameter_list
+	: parameter_declaration
+	| parameter_list ',' parameter_declaration
+	;
+
+parameter_declaration
+	: declaration_specifiers declarator
+	| declaration_specifiers
+	;
+
+identifier_list
+	: IDENTIFIER
+	| identifier_list ',' IDENTIFIER
+	;
+
+initializer_list
+	: initializer
+	| initializer_list ',' initializer ';'
+	;
+
+statement
+	: labeled_statement
+	| compound_statement
+	| expression_statement
+	| selection_statement
+	| iteration_statement
+	| jump_statement
+	;
+
+labeled_statement
+	: IDENTIFIER ':' statement
+	| CASE constant_expression ':' statement
+	| DEFAULT ':' statement
+	;
+
+compound_statement
+	: '{' compound_sts '}'
+	;
+
+compound_sts
+	: statement_list
+	| declaration_list
+	| declaration_list statement_list
+	;
+
+declaration_list
+	: declaration
+	| declaration_list declaration
+	;
+
+statement_list
+	: statement
+	| statement_list statement
+	;
+
+expression_statement
+	: ';'
+	| expression ';'
+	;
+
+statement
+	: labeled_statement
+	| expression_statement
+	| selection_statement
+	| iteration_statement
+	| jump_statement
+	| declaration_list
+	| declaration_list statement_list
+	| statement_list
+	;
+
+selection_statement
+	: IF '(' expression ')' '{' statement '}'
+	| IF '(' expression ')' '{' statement '}' ELSE '{' statement '}'
+	|  SWITCH '(' expression ')' statement
+	;
+
+iteration_statement
+	: WHILE '(' expression ')' statement
+	| DO statement WHILE '(' expression ')'
+	| FOR '(' expression_statement expression_statement ')' statement
+	| FOR '(' expression_statement expression_statement expression ')' statement
+	;
+
+jump_statement
+	: GOTO IDENTIFIER ';'
+	| CONTINUE ';'
+	| BREAK ';'
+	| RETURN ';'
+	| RETURN expression ';'
+	;
+
+translation_unit
+	: external_declaration
+	| translation_unit external_declaration
+	;
+
+external_declaration
+	: function_definition
+	| declaration
+	;
+
+function_definition
+	: declaration_specifiers_declarator
+	| declarator_
+	;
+
+declaration_specifiers_declarator
+	: declaration_specifiers declarator declaration_list compound_statement
+	| declaration_specifiers declarator compound_statement
+	;
+
+declarator_
+	: declarator declaration_list compound_statement
+	| declarator compound_statement
+	;

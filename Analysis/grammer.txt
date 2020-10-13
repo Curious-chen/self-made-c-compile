@@ -1,0 +1,59 @@
+Basic_expression -> IDENTIFIER|CONSTANT|STRING_LITERAL|( Expression )
+Postfix_expression -> Basic_expression|Postfix_expression [ Expression ]|Postfix_expression ( )|Postfix_expression ( Parameter_expression_list )|Postfix_expression . IDENTIFIER|Postfix_expression ARROW IDENTIFIER|Postfix_expression ++|Postfix_expression --
+Parameter_expression_list -> Parameter_expression_list , Assignment_expression|Assignment_expression
+Unary_expression -> Postfix_expression|++ Unary_expression|-- Unary_expression|Unary_operator Unary_expression|SIZEOF Unary_expression
+Unary_operator -> &|*|+|-|~|!|^
+Multiplicative_expression -> Unary_expression|Multiplicative_expression * Unary_expression|Multiplicative_expression / Unary_expression|Multiplicative_expression % Unary_expression
+Additive_expression -> Multiplicative_expression|Additive_expression + Multiplicative_expression|Additive_expression - Multiplicative_expression
+Shift_expression -> Additive_expression|Shift_expression << Additive_expression|Shift_expression >> Additive_expression
+Relational_expression -> Shift_expression|Relational_expression < Shift_expression|Relational_expression > Shift_expression|Relational_expression <= Shift_expression|Relational_expression >= Shift_expression
+Equality_expression -> Relational_expression|Equality_expression == Relational_expression|Equality_expression != Relational_expression
+And_expression -> Equality_expression|And_expression & Equality_expression
+Exclusive_or_expression -> And_expression|Exclusive_or_expression ^ And_expression
+Inclusive_or_expression -> Exclusive_or_expression|Inclusive_or_expression OR Exclusive_or_expression
+Logical_and_expression -> Inclusive_or_expression|Logical_and_expression && Inclusive_or_expression
+Logical_or_expression -> Logical_and_expression|Logical_or_expression OROR Logical_and_expression
+Conditional_expression -> Logical_or_expression|Logical_or_expression ? Expression : Conditional_expression
+Assignment_expression -> Conditional_expression|Conditional_expression Assignment_operator Assignment_expression
+Assignment_operator -> =|*=|/=|%=|+=|-=|<<=|>>=|&=|^=|OR=
+Expression -> Assignment_expression|Expression , Assignment_expression
+Constant_expression -> Conditional_expression
+Declaration -> Declaration_specifiers ;|Declaration_specifiers Init_declarator_list ;
+Declaration_specifiers -> Storage_class_specifier_|Type_specifier_|Type_qualifier_
+Storage_class_specifier_ -> Storage_class_specifier|Storage_class_specifier Declaration_specifiers
+Type_specifier_ -> Type_specifier|Type_specifier Declaration_specifiers
+Type_qualifier_ -> Type_qualifier|Type_qualifier Declaration_specifiers
+Init_declarator_list->  Init_declarator Init_declarator_list'
+Init_declarator_list'-> , Init_declarator Init_declarator_list'|ε
+Init_declarator -> Declarator Init_declarator'
+Init_declarator'-> ε|= Initializer
+Storage_class_specifier -> TYPEDF|EXTERN|STATIC|AUTO|REGISTER
+Type_specifier -> VOID|CHAR|SHORT|INT|LONG|FLOAT|DOUBLE|SIGNED|UNSIGNED|TYPE_NAME
+Type_qualifier ->CONST|VOLATILE|MAIN
+Initializer -> Assignment_expression|{ Initializer_list }
+Initializer_list -> Initializer|Initializer_list , Initializer
+Declarator -> Pointer Direct_declarator|Direct_declarator
+Direct_declarator->  IDENTIFIER Direct_declarator'| ( Declarator ) Direct_declarator'
+Direct_declarator'-> Direct_declarator'_1|Direct_declarator'_2|ε
+Direct_declarator'_1 -> [ Constant_expression ] Direct_declarator'|[ ] Direct_declarator'
+Direct_declarator'_2 -> ( Parameter_type_list ) Direct_declarator'|( Identifier_list ) Direct_declarator'|( ) Direct_declarator'
+Pointer -> *||* Pointer|* Type_qualifier_list Pointer
+Type_qualifier_list -> Type_qualifier|Type_qualifier_list Type_qualifier
+Parameter_type_list -> Parameter_list
+Parameter_list -> Parameter_declaration|Parameter_list , Parameter_declaration
+Parameter_declaration -> Declaration_specifiers Declarator|Declaration_specifiers
+Identifier_list -> IDENTIFIER|Identifier_list , IDENTIFIER
+Statement -> Labeled_statement|Compound_statement|Expression_statement|Selection_statement|Iteration_statement|Jump_statement
+Labeled_statement -> CASE Basic_expression : Statement|DEFAULT : Statement
+Compound_statement -> { Compound_statement_1
+Compound_statement_1 -> }|Statement_list }|Declaration_list Compound_statement_2
+Compound_statement_2 -> }|Statement_list }
+Declaration_list -> Declaration|Declaration_list Declaration
+Statement_list -> Statement|Statement_list Statement
+Expression_statement -> ;|Expression ;
+Selection_statement -> IF ( Expression ) Compound_statement|IF ( Expression ) Compound_statement ELSE Statement|SWITCH ( Expression ) Statement
+Iteration_statement -> WHILE ( Expression ) Statement|DO Statement WHILE ( Expression ) ;|FOR ( Expression_statement Expression_statement ) Statement|FOR ( Expression_statement Expression_statement Expression ) Statement
+Jump_statement -> GOTO IDENTIFIER ;|CONTINUE ;|BREAK ;|RETURN ;|RETURN Expression ;
+Translation_unit -> External_declaration|Translation_unit External_declaration
+External_declaration -> Declaration_specifiers Declarator External_declaration_1
+External_declaration_1 -> Compound_statement|Init_declarator' Init_declarator_list' ;

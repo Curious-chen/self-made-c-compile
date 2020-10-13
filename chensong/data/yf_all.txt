@@ -1,0 +1,252 @@
+
+
+
+assignment_expression
+    : conditional_expression assignment_operator assignment_expression
+    | conditional_expression
+    ;
+
+assignment_operator
+	: '='
+	| '*='
+	| '/='
+	| '%='
+	| '+='
+	| '-='
+	| '<<='
+	| '>>='
+	| '&='
+	| '^='
+	| '|='
+	;
+
+conditional_expression
+	: logical_or_expression
+	| logical_or_expression '?' expression ':' conditional_expression
+	;
+
+logical_or_expression
+    : logical_or logical_and_expression
+    | logical_and_expression
+    ;
+logical_or
+    : logical_or_expression '||'
+    ;
+
+logical_and_expression
+	: relational_expression
+	| logical_and relational_expression
+	;
+
+logical_and
+    : logical_and_expression '&&'
+    ;
+
+relational_expression
+	: additive_expression
+	| relational_expression rop_operator additive_expression
+	;
+rop_operator
+    : '<'
+    | '>'
+    | '<='
+    | '>='
+    | '=='
+    | '!='
+    ;
+additive_expression
+    : additive_expression '+' multiplicative_expression
+    | additive_expression '-' multiplicative_expression
+    | multiplicative_expression
+    ;
+
+multiplicative_expression
+    : unary_expression
+	| multiplicative_expression '*' unary_expression
+	| multiplicative_expression '/' unary_expression
+	| multiplicative_expression '%' unary_expression
+	;
+
+
+unary_expression
+    : basic_expression
+    | unary_operator basic_expression
+    | postfix_expression
+    ;
+postfix_expression
+    : function_call
+    ;
+
+unary_operator
+	: '&'
+	| '*'
+	| '+'
+	| '-'
+	| '~'
+	| '!'
+	;
+
+basic_expression
+	: IDENTIFIER
+	| CONSTANT
+	| STRING_LITERAL
+	| '(' expression ')'
+	| INTERGER
+	| FLOATOR
+	| CHARACTER
+	;
+
+expression
+	: assignment_expression
+	| expression ',' assignment_expression
+	;
+
+
+
+selection_statement_if
+    : IF '(' expression ')'
+    ;
+
+selection_statement_if_else
+    : selection_statement_if statement ELSE
+    ;
+
+selection_statement
+    : selection_statement_if statement
+    | selection_statement_if_else statement
+    ;
+
+statement
+    : selection_statement
+    | expression_statement
+    | iteration_statement
+    | statement_list
+    | jump_statement
+    | '{' statement '}'
+	;
+
+statement_list
+    : statement
+    | statement_list statement
+    ;
+
+jump_statement:
+    : GOTO IDENTIFIER ';'
+	| CONTINUE ';'
+	| BREAK ';'
+	| RETURN ';'
+	| RETURN expression ';'
+	;
+
+
+do_do
+    : DO
+    ;
+
+do_do_while
+    : do_do statement WHILE
+    ;
+
+do_statement
+    : do_do_while '(' expression ')'
+    ;
+
+for_statement_e1
+    : FOR '(' expression_statement
+    ;
+for_statement_e2
+    : for_statement_e1 expression_statement
+    ;
+for_statement_e3
+    : for_statement_e2 expression ')'
+    ;
+
+for_statement
+    : for_statement_e3 statement
+    ;
+
+iteration_statement
+    : do_statement
+    | for_statement
+    ;
+
+expression_statement
+	: ';'
+	| expression ';'
+	;
+
+parameter_declaration
+    : type_specifier IDENTIFIER
+    ;
+
+parameter_list
+	: parameter_declaration
+	| parameter_list ',' parameter_declaration
+	;
+
+function_definition
+    : function_id compound_statement
+    | function_id compound_statement
+    ;
+
+function_id
+    : type_specifier IDENTIFIER '(' parameter_list ')'
+    | type_specifier IDENTIFIER '(' ')'
+    ;
+
+function_call
+    : IDENTIFIER '(' initializer ')'
+    | IDENTIFIER '(' ')'
+    ;
+
+compound_statement
+	: '{' compound_sts '}'
+	;
+
+compound_sts
+	: statement_list
+	| declaration_list
+	| declaration_list statement_list
+	;
+
+declaration_list
+	: declaration
+	| declaration_list declaration
+	;
+
+type_specifier
+	: VOID
+	| CHAR
+	| SHORT
+	| INT
+	| LONG
+	| FLOAT
+	| DOUBLE
+	| SIGNED
+	| UNSIGNED
+	| TYPE_NAME
+	;
+
+external_declaration
+    : function_definition
+    | const_definition
+    | declaration
+    ;
+
+const_definition
+    : CONST type_specifier initializer ';'
+    ;
+
+declaration
+    : type_specifier initializer ';'
+    ;
+
+initializer
+    : assignment_expression ',' initializer
+    | assignment_expression
+    ;
+
+translation_unit
+    : external_declaration
+    | translation_unit external_declaration
+    ;

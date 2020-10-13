@@ -1,0 +1,130 @@
+目标代码:
+
+.486   ;指令集
+.model flat,stdcall ;模式为flat（平坦）,函数调用方式为stdcall，代表从右到左将函数的参数
+;压栈
+option casemap:none ;指明大小写敏感
+;inclue,includelib导入要用到的库
+include     user32.inc
+include     windows.inc
+includelib  user32.lib
+include     kernel32.inc
+includelib  kernel32.lib
+include     msvcrt.inc
+includelib  msvcrt.lib
+
+.const
+.data
+RETURN dword ?
+stop byte 'pause', 0
+printf byte '%d ' ,0
+scanf byte '%d',0
+a dd ?
+b dd ?
+A dd ?
+B dd ?
+i dd ?
+T0 dd ?
+T1 dd ?
+T2 dd ?
+T3 dd ?
+T4 dd ?
+T5 dd ?
+.code
+main:
+MOV EAX, 123
+MOV a, EAX
+MOV EAX, 100
+MOV b, EAX
+MOV EAX, 0
+MOV A, EAX
+MOV EAX, 1
+MOV B, EAX
+CMP A, 0
+JNZ L7
+JMP L13
+L7:
+CMP B, 0
+JNZ L11
+JMP L9
+L9:
+MOV EAX, a
+MOV EBX, b
+CMP EAX, EBX
+JG L11
+JMP L13
+L11:
+MOV EAX, b
+MOV i, EAX
+JMP L14
+L13:
+MOV EAX, a
+MOV i, EAX
+L14:
+MOV EAX, a
+MOV EBX, b
+CMP EAX, EBX
+JG L16
+JMP L28
+L16:
+MOV EAX, a
+SUB EAX, 1
+MOV T0, EAX
+MOV EAX, T0
+MOV a, EAX
+CMP A, 0
+JNZ L20
+JMP L26
+L20:
+CMP B, 0
+JNZ L24
+JMP L22
+L22:
+MOV EAX, a
+MOV EBX, b
+CMP EAX, EBX
+JG L24
+JMP L26
+L24:
+MOV EAX, b
+MOV i, EAX
+JMP L27
+L26:
+MOV EAX, a
+MOV i, EAX
+L27:
+JMP L14
+L28:
+MOV EAX, a
+SUB EAX, 1
+MOV T1, EAX
+MOV EAX, T1
+MOV a, EAX
+MOV EAX, a
+MOV EBX, b
+CMP EAX, EBX
+JG L28
+JMP L32
+L32:
+MOV EAX, a
+ADD EAX, b
+MOV T2, EAX
+MOV EAX, B
+SUB EAX, A
+MOV T3, EAX
+MOV EAX, T3
+MOV EDX, 0
+MOV EBX, B
+DIV EBX
+MOV T4, EAX
+MOV EAX, T2
+MOV EBX, T4
+MUL EBX
+MOV T5, EAX
+MOV EAX, T5
+MOV i, EAX
+L37:
+invoke  crt_printf,offset printf,eax ; printf(‘%d’,a);
+invoke crt_system,offset  stop ;system(‘pause’);
+invoke ExitProcess,1; exit(1)
+end main

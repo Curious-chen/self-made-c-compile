@@ -1,0 +1,11 @@
+FuncName: main  ReturnType: void  NumOfParameters:0   Size: 40
+VariableName: a     Type: int   Value: undefine Addr: 0   lev: 1
+VariableName: b     Type: int   Value: undefine Addr: 4   lev: 1
+VariableName: c     Type: int   Value: undefine Addr: 8   lev: 1
+VariableName: d     Type: int   Value: undefine Addr: 12  lev: 1
+VariableName: A     Type: int   Value: undefine Addr: 16  lev: 1
+VariableName: B     Type: int   Value: undefine Addr: 20  lev: 1
+VariableName: e     Type: int   Value: undefine Addr: 24  lev: 1
+VariableName: f     Type: int   Value: undefine Addr: 28  lev: 1
+VariableName: S     Type: int   Value: undefine Addr: 32  lev: 1
+VariableName: R     Type: int   Value: undefine Addr: 36  lev: 1

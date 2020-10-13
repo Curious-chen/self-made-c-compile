@@ -1,0 +1,30 @@
+Selection_statement'->ε| ELSE { statement }
+Selection_statement->IF ( Expression ) { statement } Selection_statement'| SWITCH ( Expression ) Statement
+
+
+
+
+
+
+Compound_statement -> { Compound_Sts }
+Compound_Sts -> Statement_list|Declaration_list|Declaration_list Statement_list
+
+External_declaration -> Function_definition
+Function_definition -> Declaration_specifiers_Declarator|Declarator_
+Declaration_specifiers_Declarator -> Declaration_specifiers Declarator Declaration_list Compound_statement|Declaration_specifiers Declarator Compound_statement
+Declarator_ -> Declarator Declaration_list Compound_statement|Declarator Compound_statement
+
+
+Init_declarator_list -> Init_declarator|Init_declarator_list , Init_declarator
+Init_declarator -> Declarator|Declarator = Initializer
+
+
+
+Compound_statement -> { Compound_statement_1
+Compound_statement_1 -> }|Statement_list }|Declaration_list Compound_statement_2
+Compound_statement_2 -> }|Statement_list }
+
+External_declaration -> Function_definition
+Function_definition -> Declaration_specifiers_Declarator|Declarator_
+Declaration_specifiers_Declarator -> Declaration_specifiers Declarator Declaration_list Compound_statement|Declaration_specifiers Declarator Compound_statement
+Declarator_ -> Declarator Declaration_list Compound_statement|Declarator Compound_statement

@@ -1,0 +1,207 @@
+Basic_expression->IDENTIFIER #Basic_expression.val=IDENTIFIER.val#
+Basic_expression->CONSTANT #Basic_expression.val=CONSTANT.val#
+Basic_expression->STRING_LITERAL #Basic_expression.val=STRING_LITERAL.val#
+Basic_expression->( Expression ) #Basic_expression.val=Expression.val#
+Postfix_expression->Basic_expression  #Postfix_expression'.in=Basic_expression.val# Postfix_expression'  #Postfix_expression.s=Postfix_expression'.s#
+Postfix_expression''->) Postfix_expression'
+Postfix_expression''->Parameter_expression_list ) Postfix_expression'
+Postfix_expression'->( Postfix_expression''
+Postfix_expression'->[ Expression ] Postfix_expression'
+Postfix_expression'->. IDENTIFIER Postfix_expression'
+Postfix_expression'->ARROW IDENTIFIER Postfix_expression'
+Postfix_expression'->++ Postfix_expression'
+Postfix_expression'->-- Postfix_expression'
+Postfix_expression'->ε
+Parameter_expression_list->Assignment_expression Parameter_expression_list'
+Parameter_expression_list'->, Assignment_expression Parameter_expression_list'
+Parameter_expression_list'->ε
+Unary_expression->Postfix_expression #Unary_expression.s=Postfix_expression.s#
+Unary_expression->++ Unary_expression
+Unary_expression->-- Unary_expression
+Unary_expression->Unary_operator Unary_expression
+Unary_expression->SIZEOF Unary_expression
+Unary_operator->&
+Unary_operator->*
+Unary_operator->+
+Unary_operator->-
+Unary_operator->~
+Unary_operator->!
+Unary_operator->^
+Multiplicative_expression->Unary_expression #Multiplicative_expression'.in=Unary_expression.val# Multiplicative_expression' #Multiplicative_expression.val=Multiplicative_expression'.s#
+Multiplicative_expression'->* Unary_expression #Multiplicative_expression'.in=Multiplicative_expression'.in*Unary_expression.val# Multiplicative_expression'.s=Multiplicative_expression'.s#
+Multiplicative_expression'->/ Unary_expression Multiplicative_expression'
+Multiplicative_expression'->% Unary_expression Multiplicative_expression'
+Multiplicative_expression'->ε
+Additive_expression->Multiplicative_expression #Additive_expression'.in=Multiplicative_expression.val# Additive_expression' #Additive_expression.s=Additive_expression'.s#
+Additive_expression'->+ Multiplicative_expression #Additive_expression'.in=Additive_expression'.in+Multiplicative_expression.val# Additive_expression' #Additive_expression'.s=Additive_expression'.s#
+Additive_expression'->- Multiplicative_expression Additive_expression'
+Additive_expression'->ε
+Shift_expression->Additive_expression #Shift_expression.s=Additive_expression.s# Shift_expression'
+Shift_expression'-><< Additive_expression Shift_expression'
+Shift_expression'->>> Additive_expression Shift_expression'
+Shift_expression'->ε
+Relational_expression->Shift_expression #Relational_expression.s=Shift_expression.s# Relational_expression'
+Relational_expression'->< Shift_expression Relational_expression'
+Relational_expression'->> Shift_expression Relational_expression'
+Relational_expression'-><= Shift_expression Relational_expression'
+Relational_expression'->>= Shift_expression Relational_expression'
+Relational_expression'->ε
+Equality_expression->Relational_expression #Equality_expression.s=Relational_expression.s# Equality_expression'
+Equality_expression'->== Relational_expression #Equality_expression'in=Equality_expression'.in==Relational_expression.s# Equality_expression' #Equality_expression'.s=Equality_expression'.s#
+Equality_expression'->!= Relational_expression Equality_expression'
+Equality_expression'->ε
+And_expression->Equality_expression #And_expression.s=Equality_expression.s# And_expression'
+And_expression'->& Equality_expression And_expression'
+And_expression'->ε
+Exclusive_or_expression->And_expression #Exclusive_or_expression.s=And_expression.s# Exclusive_or_expression'
+Exclusive_or_expression'->^ And_expression Exclusive_or_expression'
+Exclusive_or_expression'->ε
+Inclusive_or_expression->Exclusive_or_expression #Inclusive_or_expression.s=Exclusive_or_expression.s# Inclusive_or_expression'
+Inclusive_or_expression'->OR Exclusive_or_expression Inclusive_or_expression'
+Inclusive_or_expression'->ε
+Logical_and_expression->Inclusive_or_expression #Logical_and_expression.s=Inclusive_or_expression.s# Logical_and_expression'
+Logical_and_expression'->&& Inclusive_or_expression #Logical_and_expression'.in=Logical_and_expression'.in && Inclusive_or_expression.s# Logical_and_expression' #Logical_and_expression'.s=Logical_and_expression'.s#
+Logical_and_expression'->ε
+Logical_or_expression->Logical_and_expression #Logical_or_expression.s=Logical_and_expression.s# Logical_or_expression'
+Logical_or_expression'->OROR Logical_and_expression #Logical_and_expression'.in=Logical_or_expression'.in||Logical_and_expression.s# Logical_or_expression' #Logical_or_expression'.s=Logical_or_expression'.s#
+Logical_or_expression'->ε
+Conditional_expression'->ε
+Conditional_expression'->? Expression : Conditional_expression
+Conditional_expression->Logical_or_expression #Conditional_expression.s=Logical_or_expression.s# Conditional_expression'
+Assignment_expression'->ε
+Assignment_expression'->Assignment_operator Assignment_expression
+Assignment_expression->Conditional_expression #Assignment_expression.val=Conditional_expression.s#  Assignment_expression'
+Assignment_operator->=
+Assignment_operator->*=
+Assignment_operator->/=
+Assignment_operator->%=
+Assignment_operator->+=
+Assignment_operator->-=
+Assignment_operator-><<=
+Assignment_operator->>>=
+Assignment_operator->&=
+Assignment_operator->^=
+Assignment_operator->OR=
+Expression->Assignment_expression #Expression'.i=Assignment_expression.val# Expression' #Expression.val=Expression'.s#
+Expression'->, Assignment_expression #Expression'.i=Assignment_expression.val# Expression' #Expression'.val=Expression'.s#
+Expression'->ε
+Constant_expression->Conditional_expression
+Declaration'->;
+Declaration'->Init_declarator_list ;
+Declaration->Declaration_specifiers Declaration' 
+Declaration_specifiers->Storage_class_specifier_
+Declaration_specifiers->Type_specifier_
+Declaration_specifiers->Type_qualifier_
+Storage_class_specifier_'->ε
+Storage_class_specifier_'->Declaration_specifiers
+Storage_class_specifier_->Storage_class_specifier Storage_class_specifier_'
+Type_specifier_'->ε
+Type_specifier_'->Declaration_specifiers
+Type_specifier_->Type_specifier Type_specifier_'
+Type_qualifier_'->ε
+Type_qualifier_'->Declaration_specifiers
+Type_qualifier_->Type_qualifier Type_qualifier_'
+Init_declarator_list->Init_declarator Init_declarator_list'
+Init_declarator_list'->, Init_declarator Init_declarator_list'
+Init_declarator_list'->ε
+Init_declarator->Declarator Init_declarator'
+Init_declarator'->ε
+Init_declarator'->= Initializer
+Storage_class_specifier->TYPEDF
+Storage_class_specifier->EXTERN
+Storage_class_specifier->STATIC
+Storage_class_specifier->AUTO
+Storage_class_specifier->REGISTER
+Type_specifier->VOID
+Type_specifier->CHAR
+Type_specifier->SHORT
+Type_specifier->INT
+Type_specifier->LONG
+Type_specifier->FLOAT
+Type_specifier->DOUBLE
+Type_specifier->SIGNED
+Type_specifier->UNSIGNED
+Type_specifier->TYPE_NAME
+Type_qualifier->CONST
+Type_qualifier->VOLATILE
+Type_qualifier->MAIN
+Initializer->Assignment_expression
+Initializer->{ Initializer_list }
+Initializer_list->Initializer Initializer_list'
+Initializer_list'->, Initializer Initializer_list'
+Initializer_list'->ε
+Declarator->Pointer Direct_declarator
+Declarator->Direct_declarator
+Direct_declarator->IDENTIFIER Direct_declarator'
+Direct_declarator->( Declarator ) Direct_declarator'
+Direct_declarator'->Direct_declarator'_1
+Direct_declarator'->Direct_declarator'_2
+Direct_declarator'->ε
+Direct_declarator'_1'->Constant_expression ] Direct_declarator'
+Direct_declarator'_1'->] Direct_declarator'
+Direct_declarator'_1->[ Direct_declarator'_1'
+Direct_declarator'_2'->Parameter_type_list ) Direct_declarator'
+Direct_declarator'_2'->Identifier_list ) Direct_declarator'
+Direct_declarator'_2'->) Direct_declarator'
+Direct_declarator'_2->( Direct_declarator'_2'
+Pointer'->ε
+Pointer'->Pointer
+Pointer'->Type_qualifier_list Pointer
+Pointer->* Pointer'
+Pointer->
+Type_qualifier_list->Type_qualifier Type_qualifier_list'
+Type_qualifier_list'->Type_qualifier Type_qualifier_list'
+Type_qualifier_list'->ε
+Parameter_type_list->Parameter_list
+Parameter_list->Parameter_declaration Parameter_list'
+Parameter_list'->, Parameter_declaration Parameter_list'
+Parameter_list'->ε
+Parameter_declaration'->Declarator
+Parameter_declaration'->ε
+Parameter_declaration->Declaration_specifiers Parameter_declaration'
+Identifier_list->IDENTIFIER Identifier_list'
+Identifier_list'->, IDENTIFIER Identifier_list'
+Identifier_list'->ε
+Statement->Labeled_statement
+Statement->Compound_statement
+Statement->Expression_statement
+Statement->Selection_statement
+Statement->Iteration_statement
+Statement->Jump_statement
+Labeled_statement->CASE Basic_expression : Statement
+Labeled_statement->DEFAULT : Statement
+Compound_statement->{ Compound_statement_1
+Compound_statement_1->}
+Compound_statement_1->Statement_list }
+Compound_statement_1->Declaration_list Compound_statement_2
+Compound_statement_2->}
+Compound_statement_2->Statement_list }
+Declaration_list->Declaration Declaration_list'
+Declaration_list'->Declaration Declaration_list'
+Declaration_list'->ε
+Statement_list->Statement Statement_list'
+Statement_list'->Statement Statement_list'
+Statement_list'->ε
+Expression_statement->;
+Expression_statement->Expression ;
+Selection_statement'->ε
+Selection_statement'->ELSE Statement
+Selection_statement->IF ( Expression ) Compound_statement Selection_statement'
+Selection_statement->SWITCH ( Expression ) Statement
+Iteration_statement'->) Statement
+Iteration_statement'->Expression ) Statement
+Iteration_statement->FOR ( Expression_statement Expression_statement Iteration_statement'
+Iteration_statement->WHILE ( Expression ) Statement
+Iteration_statement->DO Statement WHILE ( Expression ) ;
+Jump_statement'->;
+Jump_statement'->Expression ;
+Jump_statement->RETURN Jump_statement'
+Jump_statement->GOTO IDENTIFIER ;
+Jump_statement->CONTINUE ;
+Jump_statement->BREAK ;
+Translation_unit->External_declaration Translation_unit'
+Translation_unit'->External_declaration Translation_unit'
+Translation_unit'->ε
+External_declaration->Declaration_specifiers Declarator External_declaration_1
+External_declaration_1->Compound_statement
+External_declaration_1->Init_declarator' Init_declarator_list' ;

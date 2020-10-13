@@ -1,0 +1,12 @@
+GlobalVarName: t     Type: int   Value: 3        Addr:0   lev: 0
+FuncName: add_fun ReturnType: int   NumOfParameters:2   Size: 0
+VariableName: a     Type: int   Value: undefine Addr: -4  lev: -1
+VariableName: b     Type: int   Value: undefine Addr: -2  lev: -1
+FuncName: Demo  ReturnType: int   NumOfParameters:2   Size: 4
+VariableName: e     Type: int   Value: undefine Addr: -4  lev: -1
+VariableName: f     Type: int   Value: undefine Addr: -2  lev: -1
+VariableName: t1    Type: int   Value: undefine Addr: 0   lev: 2
+FuncName: main  ReturnType: void  NumOfParameters:0   Size: 12
+VariableName: a     Type: int   Value: undefine Addr: 0   lev: 3
+VariableName: b     Type: int   Value: undefine Addr: 4   lev: 3
+VariableName: cc    Type: int   Value: undefine Addr: 8   lev: 3

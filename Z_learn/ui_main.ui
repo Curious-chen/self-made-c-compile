@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="1">
+     <widget class="QWidget" name="widget" native="true">
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QPlainTextEdit" name="plainTextEdit">
+         <property name="plainText">
+          <string>.486   ;指令集
+.model flat,stdcall ;模式为flat（平坦）,函数调用方式为stdcall，代表从右到左将函数的参数
+;压栈
+option casemap:none ;指明大小写敏感
+;inclue,includelib导入要用到的库
+include     user32.inc
+include     windows.inc
+includelib  user32.lib
+include     kernel32.inc
+includelib  kernel32.lib
+include     msvcrt.inc
+includelib  msvcrt.lib
+
+.const
+t dd 3
+.data
+RETURN dword ?
+stop byte 'pause', 0
+printf byte '%d ' ,0
+scanf byte '%d',0
+t11 dd ?
+a dd ?
+b dd ?
+cc dd ?
+T0 dd ?
+.code
+add_fun proc t1, t2
+MOV EAX, t1
+ADD EAX, t2
+MOV T0, EAX
+MOV RETURN, EAX
+RET
+L4:
+add_fun endp
+Demo proc e, f
+INVOKE add_fun, e, f
+MOV EAX,RETURN
+MOV t11, EAX
+MOV RETURN, EAX
+RET
+L3:
+Demo endp
+main:
+MOV EAX, 1
+MOV a, EAX
+MOV EAX, 2
+MOV b, EAX
+INVOKE Demo, a, b
+MOV EAX,RETURN
+MOV cc, EAX
+L4:
+invoke  crt_printf,offset printf,eax ; printf(‘%d’,a);
+invoke crt_system,offset  stop ;system(‘pause’);
+invoke ExitProcess,1; exit(1)
+end main
+</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>点击</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
